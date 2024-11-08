@@ -39,8 +39,10 @@ Amazon S3 : Fournit un stockage d'objets sécurisé et durable pour les fichiers
 
 Voici le schéma de l'infrastructure que nous avons conçue pour déployer notre application sur AWS :
 
-image :
-lien excalidraw:
+![Description de l'image](C:/Users/pc/OneDrive/Bureau/tp%20docker/hetic-infra-2/tp1.png)
+
+![Description de l'image](C:/Users/pc/OneDrive/Bureau/tp%20docker/hetic-infra-2/tp2.png)
+
 
 3. Justification des choix techniques
 
