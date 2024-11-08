@@ -7,8 +7,7 @@ Nous venons de terminer le développement de notre application révolutionnaire 
 1. Sélection des composants AWS
 
 Pour déployer notre application sur AWS, nous avons sélectionné les composants suivants :
-
-    Elastic Container Service (ECS) avec Fargate : Un service managé permettant d'exécuter des conteneurs Docker sans gérer les serveurs sous-jacents. ECS avec Fargate offre une scalabilité automatique et simplifie la gestion des conteneurs​
+Elastic Container Service (ECS) avec Fargate : Un service managé permettant d'exécuter des conteneurs Docker sans gérer les serveurs sous-jacents. ECS avec Fargate offre une scalabilité automatique et simplifie la gestion des conteneurs​
 
 
 Application Load Balancer (ALB) : Agit comme un reverse proxy pour répartir le trafic entre les instances de conteneurs déployées dans plusieurs zones de disponibilité (AZ). Le ALB permet d'assurer la haute disponibilité en redirigeant le trafic vers une zone fonctionnelle en cas de panne de l'autre​
