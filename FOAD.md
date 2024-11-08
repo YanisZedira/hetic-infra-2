@@ -1,38 +1,69 @@
-# Conception d'une infrastructure sur AWS
+Conception d'une infrastructure AWS pour une application Docker révolutionnaire
 
-Félicitations ! Vous venez de terminer de développer votre nouvelle app (révolutionnaire à n'en point douter) et n'êtes qu'à un déploiement sur AWS d'une longue vie remplie de gloire et de richesses.
+Réalisé par : Yanis Zedira et Aymen Djerad
+Contexte
 
-Pour y parvenir, vous venez de créer et d'uploader deux images Docker des composants de votre app, appellées **backend** et **frontend** (partez du principe que cette étape est déjà réalisée). Votre application étant révolutionnaire, ces deux images constituent l'intégralité de ce que vous avez à déployer. 
+Nous venons de terminer le développement de notre application révolutionnaire composée de deux images Docker : un backend et un frontend. Notre objectif est de déployer cette application sur AWS en utilisant une architecture serverless et managée. Cette infrastructure doit également être déployée sur deux zones de disponibilité pour garantir une haute disponibilité et une résilience face aux désastres naturels.
+1. Sélection des composants AWS
 
+Pour déployer notre application sur AWS, nous avons sélectionné les composants suivants :
 
-Il ne vous reste plus qu'à designer votre infrastructure et le tour est joué !
-Cette tâche peut se décomposer en trois parties 
+    Elastic Container Service (ECS) avec Fargate : Un service managé permettant d'exécuter des conteneurs Docker sans gérer les serveurs sous-jacents. ECS avec Fargate offre une scalabilité automatique et simplifie la gestion des conteneurs​
 
-1. Sélectionner les composants AWS dont vous aurez besoin pour déployer votre app. *(indice: Lisez votre cours et la documentation AWS)*
-2. Créer un schéma décrivant l'infrastructure que vous allez déployer *(indice: https://aws.amazon.com/fr/what-is/architecture-diagramming/)*
-3. Justifier vos choix techniques (il faut bien convaincre vos futurs investisseurs !)
-4. Bonus: Indiquez quel service AWS vous avez utilisé pour uploader vos images Docker et les rendre disponibles dans votre projet AWS
+​
 
-**EXEMPLES DE SCHÉMAS**
-- https://farzanaafrintisha.medium.com/basics-of-aws-architecture-diagram-278563b9cfd1
-- https://developerck.com/aws-architecture-diagrams/
-- https://docs.aws.amazon.com/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html
+.
 
-**CONTRAINTES**
-- Vous n'êtes pas à l'aise avec l'administration d'infrastructure, vous opterez donc pour une solution **managée** et **serverless**
-- Vous souhaitez que votre application soit déployée sur **deux zones** afin de prévenir à tout désastre naturel pouvant frapper les serveurs (même Jeff Bezos ne peut rien face au dérèglement climatique)
+Application Load Balancer (ALB) : Agit comme un reverse proxy pour répartir le trafic entre les instances de conteneurs déployées dans plusieurs zones de disponibilité (AZ). Le ALB permet d'assurer la haute disponibilité en redirigeant le trafic vers une zone fonctionnelle en cas de panne de l'autre​
+​
 
-**RENDU**
-1. Créez un fichier foad_<nom1>_<nom_2>.md dans votre fork
-2. Répondez aux questions et insérez votre schéma dans ce fichier
-3. Commitez et pushez ce fichier
+.
 
-Pour insérer une image dans un fichier markdown
-https://stackoverflow.com/questions/41604263/how-do-i-display-local-image-in-markdown
-https://marinegeo.github.io/2018-08-10-adding-images-markdown/
+Virtual Private Cloud (VPC) : Crée un environnement réseau isolé et sécurisé pour déployer les ressources AWS. Notre VPC sera divisé en sous-réseaux publics et privés pour optimiser la sécurité et l'accessibilité de l'application​
 
-Pour commit votre rendu:
-- git add fichier1 fichier2 ... fichiern
-- **n'oubliez pas de commit vos images** pour qu'elles s'affichent dans le ficher en markdown
-- git commit -m "message de commit"
-- git push
+.
+
+Amazon RDS (pour le backend) : Service de gestion de bases de données relationnelles, qui assure la sécurité et la disponibilité des données de notre application. Amazon RDS simplifie la gestion des bases de données sans avoir à gérer directement l'infrastructure sous-jacente.
+
+Security Groups : Firewalls virtuels qui contrôlent le trafic entrant et sortant de nos ressources AWS. Les Security Groups vont limiter les accès à notre application en fonction de règles spécifiques, garantissant ainsi une sécurité accrue​
+
+.
+
+CloudFront : Réseau de diffusion de contenu (CDN) utilisé pour améliorer l'expérience utilisateur en servant les contenus statiques (comme les images) depuis des emplacements proches géographiquement des utilisateurs.
+
+Amazon S3 : Fournit un stockage d'objets sécurisé et durable pour les fichiers statiques (images, documents) de notre application. S3 facilite la gestion des fichiers statiques, tout en étant facilement accessible et résistant​
+
+    .
+
+2. Schéma de l'infrastructure
+
+Voici le schéma de l'infrastructure que nous avons conçue pour déployer notre application sur AWS :
+
+image :
+lien excalidraw:
+
+3. Justification des choix techniques
+
+ECS avec Fargate : Nous avons choisi ECS avec Fargate pour son architecture serverless, qui permet d'exécuter des conteneurs sans avoir à gérer l'infrastructure. Fargate ajuste automatiquement les ressources en fonction de la demande, ce qui évite des coûts inutiles. Cette solution est idéale pour une application évolutive et réduit la complexité de gestion des serveurs​
+
+.
+
+Application Load Balancer (ALB) : Le ALB assure un équilibrage de charge efficace et garantit la haute disponibilité. En cas de problème dans une zone de disponibilité, le ALB redirige le trafic vers une autre, maintenant ainsi l'application en ligne. De plus, le ALB permet de masquer l'IP des serveurs pour améliorer la sécurité de notre infrastructure​
+
+.
+
+VPC et Security Groups : La combinaison d'un VPC et de Security Groups permet de créer un réseau privé et sécurisé. Les Security Groups agissent comme des pare-feu virtuels et limitent les accès aux ressources de l'application en fonction des besoins de sécurité​
+
+.
+
+Amazon RDS : Pour notre backend, Amazon RDS gère les bases de données relationnelles de manière managée, offrant une haute disponibilité et des sauvegardes automatiques. Cela permet d'assurer la sécurité et la durabilité des données tout en nous évitant de gérer directement l'infrastructure​
+
+.
+
+CloudFront : Le CDN CloudFront optimise l'accès aux utilisateurs finaux en mettant en cache le contenu aux emplacements les plus proches des utilisateurs, ce qui réduit la latence et améliore l'expérience utilisateur.
+
+Amazon S3 : S3 fournit un stockage fiable et accessible pour les fichiers statiques, comme les images. Cela simplifie la gestion des fichiers statiques tout en réduisant les coûts de stockage.
+Bonus : Service AWS pour uploader les images Docker
+
+Nous avons utilisé Amazon Elastic Container Registry (ECR) pour stocker et gérer les images Docker de notre application. ECR permet de stocker les images Docker de manière sécurisée et intégrée avec ECS, facilitant le déploiement de nos conteneurs sans complexité supplémentaire​
+​.
